@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Sidebar from '@/components/layout/Sidebar';
 import Header from '@/components/layout/Header';
 import SummaryCards from '@/components/dashboard/SummaryCards';
 import TaskFilters from '@/components/dashboard/TaskFilters';
@@ -28,10 +27,6 @@ export default function TaskFlowPage() {
     setFilterField,
     clearFilters,
   } = useTasks();
-
-  // Navigation & UI state
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeNav, setActiveNav] = useState('overview');
 
   // Modal states
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
@@ -69,76 +64,62 @@ export default function TaskFlowPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-50/70 font-sans text-slate-900 antialiased selection:bg-indigo-100 selection:text-indigo-900">
-      {/* Left Sidebar */}
-      <Sidebar
-        isOpen={mobileMenuOpen}
-        onClose={() => setMobileMenuOpen(false)}
-        activeNav={activeNav}
-        onNavChange={setActiveNav}
-        taskCount={tasks.length}
+    <div className="min-h-screen bg-slate-50/70 font-sans text-slate-900 antialiased selection:bg-indigo-100 selection:text-indigo-900">
+      {/* Sticky Header with integrated Branding and Navigation */}
+      <Header
+        onOpenNewTaskModal={() => handleOpenCreateModal('todo')}
+        searchValue={filters.search}
+        onSearchChange={(value) => setFilterField('search', value)}
         onResetDemo={resetToDemo}
       />
 
-      {/* Main Content Area */}
-      <div className="flex flex-1 flex-col min-w-0">
-        {/* Sticky Header */}
-        <Header
-          onOpenMobileMenu={() => setMobileMenuOpen(true)}
-          onOpenNewTaskModal={() => handleOpenCreateModal('todo')}
-          searchValue={filters.search}
-          onSearchChange={(value) => setFilterField('search', value)}
-          activeFilterCount={hasActiveFilters ? 1 : 0}
-        />
+      {/* Main Workspace Canvas */}
+      <main className="px-4 sm:px-8 py-6 space-y-6 max-w-[1600px] w-full mx-auto">
+        {/* Summary Metric Cards */}
+        <section aria-label="Task Summary Metrics">
+          <SummaryCards metrics={metrics} />
+        </section>
 
-        {/* Workspace Canvas */}
-        <main className="flex-1 px-4 sm:px-8 py-6 space-y-6 max-w-[1600px] w-full mx-auto">
-          {/* Summary Metric Cards */}
-          <section aria-label="Task Summary Metrics">
-            <SummaryCards metrics={metrics} />
-          </section>
+        {/* Filtering and Search Toolbar */}
+        <section aria-label="Task Filters">
+          <TaskFilters
+            filters={filters}
+            onFilterChange={setFilterField}
+            onClearFilters={clearFilters}
+            hasActiveFilters={hasActiveFilters}
+            totalTasks={tasks.length}
+            filteredCount={filteredTasks.length}
+          />
+        </section>
 
-          {/* Filtering and Search Toolbar */}
-          <section aria-label="Task Filters">
-            <TaskFilters
-              filters={filters}
-              onFilterChange={setFilterField}
-              onClearFilters={clearFilters}
-              hasActiveFilters={hasActiveFilters}
-              totalTasks={tasks.length}
-              filteredCount={filteredTasks.length}
+        {/* Kanban Board Container */}
+        <section aria-label="Kanban Board" className="pt-2">
+          {!isMounted ? (
+            /* Loading skeleton during client hydration */
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+              {[1, 2, 3, 4].map((i) => (
+                <div
+                  key={i}
+                  className="h-96 rounded-2xl border border-slate-200/80 bg-white/60 p-4 animate-pulse space-y-4"
+                >
+                  <div className="h-5 w-24 bg-slate-200 rounded" />
+                  <div className="h-28 bg-slate-100 rounded-xl" />
+                  <div className="h-28 bg-slate-100 rounded-xl" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <KanbanBoard
+              groupedTasks={groupedTasks}
+              allTasks={tasks}
+              onReorder={reorderTasks}
+              onAddTask={(status) => handleOpenCreateModal(status)}
+              onEditTask={handleOpenEditModal}
+              onDeleteRequest={(task) => setTaskToDelete(task)}
             />
-          </section>
-
-          {/* Kanban Board Container */}
-          <section aria-label="Kanban Board" className="pt-2">
-            {!isMounted ? (
-              /* Loading skeleton during client hydration */
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
-                {[1, 2, 3, 4].map((i) => (
-                  <div
-                    key={i}
-                    className="h-96 rounded-2xl border border-slate-200/80 bg-white/60 p-4 animate-pulse space-y-4"
-                  >
-                    <div className="h-5 w-24 bg-slate-200 rounded" />
-                    <div className="h-28 bg-slate-100 rounded-xl" />
-                    <div className="h-28 bg-slate-100 rounded-xl" />
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <KanbanBoard
-                groupedTasks={groupedTasks}
-                allTasks={tasks}
-                onReorder={reorderTasks}
-                onAddTask={(status) => handleOpenCreateModal(status)}
-                onEditTask={handleOpenEditModal}
-                onDeleteRequest={(task) => setTaskToDelete(task)}
-              />
-            )}
-          </section>
-        </main>
-      </div>
+          )}
+        </section>
+      </main>
 
       {/* Create / Edit Task Modal */}
       <TaskModal

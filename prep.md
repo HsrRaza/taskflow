@@ -54,8 +54,7 @@ src / job-tracker/
 │   └── useTasks.ts                  # Centralized business logic, immutable state mutations & persistence
 ├── components/
 │   ├── layout/
-│   │   ├── Sidebar.tsx              # Navigation shell, project filters, user profile, demo reset
-│   │   └── Header.tsx               # Workspace title, global search bar, notifications, "+ New Task" trigger
+│   │   └── Header.tsx               # Workspace title & brand, global search bar, notifications, "+ New Task" trigger
 │   └── dashboard/
 │       ├── SummaryCards.tsx         # Real-time computed metrics (Total, In Progress, Done, Overdue)
 │       ├── TaskFilters.tsx          # Priority, project dropdowns, clear filters, match counter
@@ -498,7 +497,6 @@ Here are the **three strongest options** you can present, depending on whether t
 - **Seed Data**: [`lib/initial-data.ts`](file:///home/hassanraza/tracker/job-tracker/lib/initial-data.ts)
 - **Custom Hook**: [`hooks/useTasks.ts`](file:///home/hassanraza/tracker/job-tracker/hooks/useTasks.ts)
 - **Composition Root**: [`app/page.tsx`](file:///home/hassanraza/tracker/job-tracker/app/page.tsx)
-- **Sidebar**: [`components/layout/Sidebar.tsx`](file:///home/hassanraza/tracker/job-tracker/components/layout/Sidebar.tsx)
 - **Header**: [`components/layout/Header.tsx`](file:///home/hassanraza/tracker/job-tracker/components/layout/Header.tsx)
 - **Summary Cards**: [`components/dashboard/SummaryCards.tsx`](file:///home/hassanraza/tracker/job-tracker/components/dashboard/SummaryCards.tsx)
 - **Task Filters**: [`components/dashboard/TaskFilters.tsx`](file:///home/hassanraza/tracker/job-tracker/components/dashboard/TaskFilters.tsx)

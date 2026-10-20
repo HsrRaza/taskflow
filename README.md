@@ -62,8 +62,7 @@ job-tracker/
 │   └── globals.css               # Tailwind CSS v4 directives & theme styles
 ├── components/
 │   ├── layout/
-│   │   ├── Sidebar.tsx           # Navigation drawer, project tags, user profile, demo reset
-│   │   └── Header.tsx            # Sticky header, search bar, notifications, "+ New Task" trigger
+│   │   └── Header.tsx            # Sticky header, branding, search bar, notifications, "+ New Task" trigger
 │   └── dashboard/
 │       ├── KanbanBoard.tsx       # DnD context, sensors (pointer/touch/keyboard), collision detection
 │       ├── KanbanColumn.tsx      # Droppable column target, sortable context, empty state

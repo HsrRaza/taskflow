@@ -2,29 +2,29 @@
 
 import React, { useState } from 'react';
 import {
-  Menu,
+  Layers,
   Plus,
   Search,
   Bell,
   X,
+  RotateCcw,
   CheckCircle2,
   Clock,
   Sparkles,
 } from 'lucide-react';
 
 interface HeaderProps {
-  onOpenMobileMenu: () => void;
   onOpenNewTaskModal: () => void;
   searchValue: string;
   onSearchChange: (value: string) => void;
-  activeFilterCount: number;
+  onResetDemo: () => void;
 }
 
 export default function Header({
-  onOpenMobileMenu,
   onOpenNewTaskModal,
   searchValue,
   onSearchChange,
+  onResetDemo,
 }: HeaderProps) {
   const [showNotifications, setShowNotifications] = useState(false);
 
@@ -53,38 +53,47 @@ export default function Header({
   ];
 
   return (
-    <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/80 backdrop-blur-md">
-      <div className="flex h-20 items-center justify-between px-4 sm:px-8">
-        {/* Left side: Hamburger (mobile) + Titles */}
-        <div className="flex items-center gap-3 sm:gap-4">
-          <button
-            onClick={onOpenMobileMenu}
-            className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 lg:hidden"
-            aria-label="Open mobile menu"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
-          <div>
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
+    <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/85 backdrop-blur-md">
+      <div className="flex h-20 items-center justify-between px-4 sm:px-8 max-w-[1600px] mx-auto w-full">
+        {/* Left side: Logo & Branding + Workspace Title */}
+        <div className="flex items-center gap-3 sm:gap-5">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-xs">
+              <Layers className="h-5 w-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-base font-bold tracking-tight text-slate-900">TaskFlow</span>
+                <span className="rounded-md bg-indigo-50 px-1.5 py-0.5 text-[10px] font-semibold text-indigo-700 border border-indigo-100">
+                  PRO
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="hidden md:block h-6 w-px bg-slate-200" />
+
+          <div className="hidden sm:block">
+            <h1 className="text-sm md:text-base font-semibold tracking-tight text-slate-800">
               My Workspace
             </h1>
-            <p className="hidden text-xs sm:block text-slate-500 mt-0.5">
+            <p className="text-[11px] text-slate-400">
               Plan your work. Make progress.
             </p>
           </div>
         </div>
 
-        {/* Right side: Search + Notification + New Task */}
-        <div className="flex items-center gap-2.5 sm:gap-3">
+        {/* Right side: Search + Reset + Notification + New Task + User Avatar */}
+        <div className="flex items-center gap-2 sm:gap-3">
           {/* Search bar */}
-          <div className="relative w-44 sm:w-64 md:w-80">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+          <div className="relative w-36 sm:w-56 md:w-72">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
               placeholder="Search tasks..."
               value={searchValue}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="h-9 w-full rounded-lg border border-slate-200 bg-slate-50/70 pl-9 pr-8 text-xs sm:text-sm text-slate-800 placeholder-slate-400 transition-all focus:border-indigo-500 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20"
+              className="h-9 w-full rounded-lg border border-slate-200 bg-slate-50/70 pl-8 pr-8 text-xs sm:text-sm text-slate-800 placeholder-slate-400 transition-all focus:border-indigo-500 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20"
             />
             {searchValue && (
               <button
@@ -92,10 +101,20 @@ export default function Header({
                 className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded p-0.5 text-slate-400 hover:text-slate-600"
                 aria-label="Clear search"
               >
-                <X className="h-3.5 w-3.5" />
+                <X className="h-3 w-3" />
               </button>
             )}
           </div>
+
+          {/* Reset Demo button */}
+          <button
+            onClick={onResetDemo}
+            className="hidden md:inline-flex h-9 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 text-xs font-medium text-slate-600 shadow-2xs hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 transition-colors"
+            title="Restore default demo tasks"
+          >
+            <RotateCcw className="h-3.5 w-3.5 text-slate-400" />
+            <span>Reset Demo</span>
+          </button>
 
           {/* Notifications dropdown trigger */}
           <div className="relative">
@@ -164,6 +183,14 @@ export default function Header({
             <span className="hidden xs:inline">New Task</span>
             <span className="xs:hidden">New</span>
           </button>
+
+          {/* User profile avatar */}
+          <div className="relative pl-1">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-800 text-[11px] font-semibold text-white ring-2 ring-slate-100">
+              HR
+            </div>
+            <span className="absolute bottom-0 right-0 h-2 w-2 rounded-full border border-white bg-emerald-500" />
+          </div>
         </div>
       </div>
     </header>
