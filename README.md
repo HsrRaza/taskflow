@@ -55,7 +55,7 @@
 ## 📂 Project Structure
 
 ```text
-job-tracker/
+taskflow/
 ├── app/
 │   ├── layout.tsx                # Root layout, metadata & Geist font configuration
 │   ├── page.tsx                  # TaskFlow single-page composition root
