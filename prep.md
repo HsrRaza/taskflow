@@ -44,7 +44,7 @@ This guide is a comprehensive reference and interview preparation document for *
 The codebase separates concerns across data contracts, utility logic, presentation, and state orchestration:
 
 ```
-src / job-tracker/
+taskflow/
 ├── types/
 │   └── task.ts                      # Domain models, status/priority unions, metrics & filter state
 ├── lib/
